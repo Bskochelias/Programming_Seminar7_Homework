@@ -39,7 +39,6 @@ void PrintMas(int [,]arra)
 }
 
 //Замена первой и последней строки
-
 int [,] Chain_first_last_Mass(int [,]arra)
 {
     for(int j =0;j<arra.GetLength(1);j++)
@@ -48,6 +47,36 @@ int [,] Chain_first_last_Mass(int [,]arra)
       arra[arra.GetLength(0)-1,j] = temp;
       }
   return arra;
+}
+
+//Сортировка одномерного массива
+int [] Poryadok_Stroki_1DMass(int [] arra1D)
+{
+  for(int i=0;i<arra1D.Length-1;i++)
+    for(int j =0;j<arra1D.Length-i-1;j++)
+      {
+        if(arra1D[j]>arra1D[j+1])
+          {int temp = arra1D[j];
+          arra1D[j]=arra1D[j+1];
+          arra1D[j+1]=temp;
+          }
+      }
+  return arra1D;
+}
+
+//Сортировка двухмерного массива
+int [,] Poryadok_Stroki_2DMass(int [,] arra2D)
+{
+  for(int i=0;i<arra2D.GetLength(0);i++)
+    { 
+      int [] arra1D = new int [arra2D.GetLength(1)]; 
+      for(int j =0;j<arra2D.GetLength(1);j++)
+      {arra1D[j] = arra2D[i,j];}
+      arra1D = Poryadok_Stroki_1DMass (arra1D);
+      for(int j =0;j<arra2D.GetLength(1);j++)
+      {arra2D[i,j] = arra1D[j];}
+    }
+  return arra2D;
 }
 
 int otvet1 = 0;
@@ -81,21 +110,37 @@ do
   
   //1. Написать программу, которая обменивает элементы первой строки и последней строки.
   if (otvet1==1)
-{
-  int m = Proverca_chisla("Введите строки: ");
-  int n = Proverca_chisla("Введите столбцы: ");
-  int min = Proverca_chisla("Введите минмальное значения рандома: ");
-  int max = Proverca_chisla("Введите максимальное значения рандома: ");
+  {
+    int m = Proverca_chisla("Введите строки: ");
+    int n = Proverca_chisla("Введите столбцы: ");
+    int min = Proverca_chisla("Введите минмальное значения рандома: ");
+    int max = Proverca_chisla("Введите максимальное значения рандома: ");
 
-  int[,]arra = CreateMass(m,n,min,max);
-  
-  System.Console.WriteLine("Получился следующий случайный массив: ");
-  PrintMas(arra);
-  arra = Chain_first_last_Mass(arra);
-  System.Console.WriteLine("После замены получился следующий случайный массив: ");
-  PrintMas(arra);
-}
+    int[,]arra = CreateMass(m,n,min,max);
+    
+    System.Console.WriteLine("Получился следующий случайный массив: ");
+    PrintMas(arra);
+    arra = Chain_first_last_Mass(arra);
+    System.Console.WriteLine("После замены получился следующий случайный массив: ");
+    PrintMas(arra);
+  }
 
+ // 2.Написать программу, упорядочивания по убыванию элементы каждой строки двумерной массива.
+  if (otvet1==2)
+  {
+    int m = Proverca_chisla("Введите строки: ");
+    int n = Proverca_chisla("Введите столбцы: ");
+    int min = Proverca_chisla("Введите минмальное значения рандома: ");
+    int max = Proverca_chisla("Введите максимальное значения рандома: ");
+
+    int[,]arra = CreateMass(m,n,min,max);
+    
+    System.Console.WriteLine("Получился следующий случайный массив: ");
+    PrintMas(arra);
+    arra = Poryadok_Stroki_2DMass(arra);
+    System.Console.WriteLine("После замены получился следующий случайный массив: ");
+    PrintMas(arra);
+  }
 
   //Конец тела задач    
   Console.Write("Нажмите <Enter> для продолжения... ");
