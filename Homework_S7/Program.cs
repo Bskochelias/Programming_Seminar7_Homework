@@ -49,7 +49,7 @@ int [,] Chain_first_last_Mass(int [,]arra)
   return arra;
 }
 
-//Сортировка одномерного массива
+//Сортировка одномерного массива по возрастанию
 int [] Poryadok_Stroki_1DMass(int [] arra1D)
 {
   for(int i=0;i<arra1D.Length-1;i++)
@@ -64,7 +64,7 @@ int [] Poryadok_Stroki_1DMass(int [] arra1D)
   return arra1D;
 }
 
-//Сортировка двухмерного массива
+//Сортировка двухмерного массива по возрастанию
 int [,] Poryadok_Stroki_2DMass(int [,] arra2D)
 {
   for(int i=0;i<arra2D.GetLength(0);i++)
@@ -77,6 +77,35 @@ int [,] Poryadok_Stroki_2DMass(int [,] arra2D)
       {arra2D[i,j] = arra1D[j];}
     }
   return arra2D;
+}
+
+//Нахождения суммы элементов массива
+int Min_Chislo_Mas(int [] arra1D)
+{
+    int sum=0;
+    for(int i=0;i<arra1D.Length;i++)
+      { sum+=arra1D[i];
+      }
+  return sum;
+}
+
+//Нахождения строку с наименьшей суммой элементов.
+(int,int) Min_Sum_2DMass(int [,] arra2D)
+{
+  int index=0,sum=99999999;
+  for(int i=0;i<arra2D.GetLength(0);i++)
+    { 
+      int [] arra1D = new int [arra2D.GetLength(1)]; 
+      for(int j =0;j<arra2D.GetLength(1);j++)
+      {arra1D[j] = arra2D[i,j];}
+       
+      if(sum > Min_Chislo_Mas(arra1D))
+      {
+        sum = Min_Chislo_Mas(arra1D);
+        index = i;
+      }
+    }
+  return (sum,index);
 }
 
 int otvet1 = 0;
@@ -95,14 +124,14 @@ do
     Console.WriteLine(" ");
     otvet1 = Proverca_chisla("Ваш ответ: ");
 
-    if (otvet1 > 4 ^ otvet1 < 1)
+    if (otvet1 > 3 ^ otvet1 < 1)
     {
       Console.WriteLine("Такой задачи тут нету!");
       Console.Write("Нажмите <Enter> для повторго ввода... ");
       while (Console.ReadKey().Key != ConsoleKey.Enter) {}      
     }
 
-  } while (otvet1 > 4 ^ otvet1 < 1);
+  } while (otvet1 > 3 ^ otvet1 < 1);
 
   Console.Clear();
 
@@ -140,6 +169,23 @@ do
     arra = Poryadok_Stroki_2DMass(arra);
     System.Console.WriteLine("После замены получился следующий случайный массив: ");
     PrintMas(arra);
+  }
+
+  //3. В прямоугольной матрице найти строку с наименьшей суммой элементов.
+  if (otvet1==3)
+  {
+    int m = Proverca_chisla("Введите строки: ");
+    int n = Proverca_chisla("Введите столбцы: ");
+    int min = Proverca_chisla("Введите минмальное значения рандома: ");
+    int max = Proverca_chisla("Введите максимальное значения рандома: ");
+
+    int[,]arra = CreateMass(m,n,min,max);
+    
+    System.Console.WriteLine("Получился следующий случайный массив: ");
+    PrintMas(arra);
+    (int sum,int index) = Min_Sum_2DMass(arra); 
+
+    System.Console.WriteLine($"{index+1} cтрока с наименьшей суммой элементов которая равна: {sum}");
   }
 
   //Конец тела задач    
